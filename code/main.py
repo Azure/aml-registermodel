@@ -97,7 +97,6 @@ def main():
     best_run = get_best_run(
         experiment=experiment,
         run=run,
-        parameters=parameters,
         pipeline_child_run_name=parameters.get("pipeline_child_run_name", None)
     )
 
