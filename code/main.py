@@ -1,7 +1,5 @@
 import os
-import sys
 import json
-import importlib
 
 from azureml.core import Workspace, Experiment, Run
 from azureml.core.authentication import ServicePrincipalAuthentication
@@ -102,7 +100,7 @@ def main():
         parameters=parameters,
         pipeline_child_run_name=parameters.get("pipeline_child_run_name", None)
     )
-    
+
     # Comparing metrics of runs
     print("::debug::Comparing metrics of runs")
     compare_metrics(
@@ -123,13 +121,13 @@ def main():
 
     # Defining model framework
     print("::debug::Defining model framework")
-    model_framework = model_framework(
+    model_framework = get_model_framework(
         name=parameters.get("model_framework", None)
     )
 
     # Defining model path
     print("::debug::Defining model path")
-    model_file_name = parameters.get("model_framework", None)
+    model_file_name = parameters.get("model_file_name", None)
     model_path = [file_name for file_name in best_run.get_file_names() if model_file_name in os.path.split(file_name)[-1]][0]
 
     # Defining datasets
