@@ -1,4 +1,4 @@
-from azureml.core import Model, Dataset, Run
+from azureml.core import Model, Dataset
 from azureml.train.hyperdrive import HyperDriveRun
 from azureml.pipeline.core import PipelineRun
 from azureml.exceptions import WebserviceException
@@ -16,9 +16,9 @@ def required_parameters_provided(parameters, keys, message="Required parameter n
     missing_keys = []
     for key in keys:
         if key not in parameters:
-            err_msg = f"{message} {key}" 
+            err_msg = f"{message} {key}"
             print(f"::error::{err_msg}")
-            missing_keys.append(key) 
+            missing_keys.append(key)
     if len(missing_keys) > 0:
         raise AMLConfigurationException(f"{message} {missing_keys}")
 
@@ -32,7 +32,7 @@ def get_best_run(experiment, run, pipeline_child_run_name=None):
             experiment=experiment,
             run_id=run.id
         )
-        
+
         # Loading pipeline step by name
         run = run.find_step_run(name=pipeline_child_run_name)
         if len(run) < 1:
@@ -48,7 +48,6 @@ def get_best_run(experiment, run, pipeline_child_run_name=None):
         if len(list(run.get_children())) > 0:
             run = list(run.get_children())[0]
 
-    
     # Handle hyperdrive run
     print("::debug::Handling hyperdrive run")
     if run.type == "hyperdrive":
@@ -69,7 +68,7 @@ def get_dataset(workspace, name):
             name=name,
             version="latest"
         )
-    except:
+    except Exception:
         dataset = None
     return dataset
 
@@ -97,20 +96,20 @@ def compare_metrics(workspace, run, model_name, metrics_max, metrics_min):
             name=model_name
         )
     except WebserviceException as exception:
-        print("::debug::Model with same name not found. Assuming that it is the first model that is registered")
+        print(f"::debug::Model with same name not found. Assuming that it is the first model that is registered: {exception}")
         return
-    
+
     # Loading run of production model
     print("::debug::Loading run of production model")
     production_model_run = production_model.run
     if run is None:
         print("::debug::Previous model was not registered from run object")
         return
-    
+
     # Loading metrics of runs
     production_model_metrics = production_model_run.get_metrics()
     run_metrics = run.get_metrics()
-    
+
     # Comparing metrics to maximize
     print("::debug::Comparing metrics to maximize")
     for metric_max in metrics_max:
@@ -121,7 +120,7 @@ def compare_metrics(workspace, run, model_name, metrics_max, metrics_min):
         except TypeError as exception:
             print(f"::error::Metric comparison failed for metric name '{metric_max}': {exception}")
             raise AMLConfigurationException(f"::error::Metric comparison failed for metric name '{metric_max}'")
-    
+
     # Comparing metrics to minimize
     print("::debug::Comparing metrics to minimize")
     for metric_min in metrics_min:
