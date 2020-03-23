@@ -166,7 +166,7 @@ def main():
             datasets=datasets,
             sample_input_dataset=input_dataset,
             sample_output_dataset=output_dataset,
-            resource_configuration=resource_configuration,
+            resource_configuration=resource_configuration
         )
     except ModelPathNotFoundException as exception:
         print(f"::error::Model name not found in outputs folder. Please provide the correct model file name and make sure that the model was saved by the run: {exception}")
