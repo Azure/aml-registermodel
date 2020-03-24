@@ -155,7 +155,7 @@ def main():
     resource_configuration = ResourceConfiguration(cpu=cpu, memory_in_gb=memory) if (cpu is not None and memory is not None) else None
 
     try:
-        best_run.register_model(
+        model = best_run.register_model(
             model_name=parameters.get("model_name", None),
             model_path=model_path,
             tags=parameters.get("model_tags", None),
@@ -174,6 +174,12 @@ def main():
     except WebserviceException as exception:
         print(f"::error::Model could not be registered: {exception}")
         raise AMLConfigurationException("Model could not be registered")
+    
+    # Create outputs
+    print("::debug::Creating outputs")
+    print(f"::set-output name=model_name::{model.name}")
+    print(f"::set-output name=model_version::{model.version}")
+    print(f"::set-output name=model_id::{model.id}")
     print("::debug::Successfully completed Azure Machine Learning Register Model Action")
 
 
