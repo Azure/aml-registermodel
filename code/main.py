@@ -102,13 +102,14 @@ def main():
 
     # Comparing metrics of runs
     print("::debug::Comparing metrics of runs")
-    compare_metrics(
-        workspace=ws,
-        run=best_run,
-        model_name=parameters.get("model_name", None),
-        metrics_max=parameters.get("metrics_max", []),
-        metrics_min=parameters.get("metrics_min", [])
-    )
+    if not parameters.get("force_registration", False):
+        compare_metrics(
+            workspace=ws,
+            run=best_run,
+            model_name=parameters.get("model_name", None),
+            metrics_max=parameters.get("metrics_max", []),
+            metrics_min=parameters.get("metrics_min", [])
+        )
 
     # Checking provided parameters
     print("::debug::Checking provided parameters")
