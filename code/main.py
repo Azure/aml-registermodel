@@ -174,7 +174,7 @@ def main():
     except WebserviceException as exception:
         print(f"::error::Model could not be registered: {exception}")
         raise AMLConfigurationException("Model could not be registered")
-    
+
     # Create outputs
     print("::debug::Creating outputs")
     print(f"::set-output name=model_name::{model.name}")

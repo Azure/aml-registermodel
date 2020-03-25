@@ -1,3 +1,5 @@
+![Integration Test](https://github.com/Azure/aml-registermodel/workflows/Integration%20Test/badge.svg)
+![Lint](https://github.com/Azure/aml-registermodel/workflows/Lint/badge.svg)
 
 # Contributing
 

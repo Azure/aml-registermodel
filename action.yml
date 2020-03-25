@@ -15,6 +15,13 @@ inputs:
     description: "JSON file including the parameters for registering the model."
     required: true
     default: "registermodel.json"
+outputs:
+  model_name:
+    description: "Name of the registered model"
+  model_version:
+    description: "Version of the registered model"
+  model_id:
+    description: "ID of the registered model"
 branding:
   icon: "chevron-up"
   color: "blue"
