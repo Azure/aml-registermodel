@@ -176,10 +176,12 @@ def main():
         raise AMLConfigurationException("Model could not be registered")
 
     # Create outputs
+    model_serialized = model.serialize()
     print("::debug::Creating outputs")
-    print(f"::set-output name=model_name::{model.name}")
-    print(f"::set-output name=model_version::{model.version}")
-    print(f"::set-output name=model_id::{model.id}")
+    print(f"::set-output name=modelName::{model.name}")
+    print(f"::set-output name=modelVersion::{model.version}")
+    print(f"::set-output name=modelId::{model.id}")
+    print(f"::set-output name=modelSerialized::{model_serialized}")
     print("::debug::Successfully completed Azure Machine Learning Register Model Action")
 
 

@@ -16,12 +16,14 @@ inputs:
     required: true
     default: "registermodel.json"
 outputs:
-  model_name:
+  modelName:
     description: "Name of the registered model"
-  model_version:
+  modelVersion:
     description: "Version of the registered model"
-  model_id:
+  modelId:
     description: "ID of the registered model"
+  modelSerialized:
+    description: "JSON serialized dictionary of the registered model"
 branding:
   icon: "chevron-up"
   color: "blue"
