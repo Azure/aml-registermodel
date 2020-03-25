@@ -2,25 +2,25 @@ name: "Azure Machine Learning Register Model Action"
 description: "Register a model in your Azure Machine Learning Workspace with this GitHub Action"
 author: "azure/gh-aml"
 inputs:
-  azureCredentials:
+  azure_credentials:
     description: "Paste output of `az ad sp create-for-rbac --name <your-sp-name> --role contributor --scopes /subscriptions/<your-subscriptionId>/resourceGroups/<your-rg> --sdk-auth` as value of secret variable: AZURE_CREDENTIALS"
     required: true
-  runId:
+  run_id:
     description: "ID of the run or pipeline run for which a model is to be registered"
     required: true
-  experimentName:
+  experiment_name:
     description: "Experiment to which the run belongs to"
     required: true
-  parametersFile:
+  parameters_file:
     description: "JSON file including the parameters for registering the model."
     required: true
     default: "registermodel.json"
 outputs:
-  modelName:
+  model_name:
     description: "Name of the registered model"
-  modelVersion:
+  model_version:
     description: "Version of the registered model"
-  modelId:
+  model_id:
     description: "ID of the registered model"
 branding:
   icon: "chevron-up"

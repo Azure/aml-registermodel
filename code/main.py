@@ -14,10 +14,10 @@ from utils import AMLConfigurationException, required_parameters_provided, get_m
 def main():
     # Loading input values
     print("::debug::Loading input values")
-    parameters_file = os.environ.get("INPUT_PARAMETERSFILE", default="run.json")
-    azure_credentials = os.environ.get("INPUT_AZURECREDENTIALS", default="{}")
-    experiment_name = os.environ.get("INPUT_EXPERIMENTNAME", default=None)
-    run_id = os.environ.get("INPUT_RUNID", default=None)
+    parameters_file = os.environ.get("INPUT_PARAMETERS_FILE", default="run.json")
+    azure_credentials = os.environ.get("INPUT_AZURE_CREDENTIALS", default="{}")
+    experiment_name = os.environ.get("INPUT_EXPERIMENT_NAME", default=None)
+    run_id = os.environ.get("INPUT_RUN_ID", default=None)
     try:
         azure_credentials = json.loads(azure_credentials)
     except JSONDecodeError:
