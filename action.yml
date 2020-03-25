@@ -22,8 +22,6 @@ outputs:
     description: "Version of the registered model"
   modelId:
     description: "ID of the registered model"
-  modelSerialized:
-    description: "JSON serialized dictionary of the registered model"
 branding:
   icon: "chevron-up"
   color: "blue"
