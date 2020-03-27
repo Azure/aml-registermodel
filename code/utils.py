@@ -102,7 +102,7 @@ def compare_metrics(workspace, run, model_name, metrics_max, metrics_min):
     # Loading run of production model
     print("::debug::Loading run of production model")
     production_model_run = production_model.run
-    if run is None:
+    if production_model_run is None:
         print("::debug::Previous model was not registered from run object")
         return
 
