@@ -74,13 +74,13 @@ def get_dataset(workspace, name):
 
 
 def get_model_framework(name):
-    if name.lower() == "scikitlearn":
+    if name is not None and name.lower() == "scikitlearn":
         model_framework = Model.Framework.SCIKITLEARN
-    elif name.lower() == "onnx":
+    elif name is not None and name.lower() == "onnx":
         model_framework = Model.Framework.ONNX
-    elif name.lower() == "tensorflow":
+    elif name is not None and name.lower() == "tensorflow":
         model_framework = Model.Framework.TENSORFLOW
-    elif name.lower() == "keras":
+    elif name is not None and name.lower() == "keras":
         model_framework = Model.Framework.TFKERAS
     else:
         model_framework = Model.Framework.CUSTOM
