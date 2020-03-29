@@ -115,7 +115,7 @@ def main():
     print("::debug::Checking provided parameters")
     required_parameters_provided(
         parameters=parameters,
-        keys=["model_name", "model_file_name"],
+        keys=["model_file_name"],
         message="Required parameter(s) not found in your parameters file for registering the model. Please provide a value for the following key(s): "
     )
 
@@ -156,8 +156,13 @@ def main():
     resource_configuration = ResourceConfiguration(cpu=cpu, memory_in_gb=memory) if (cpu is not None and memory is not None) else None
 
     try:
+        # Default model name
+        repository_name = os.environ.get("GITHUB_REPOSITORY").split("/")[-1]
+        branch_name = os.environ.get("GITHUB_REF")
+        default_model_name = f"{repository_name}_{branch_name}"
+
         model = best_run.register_model(
-            model_name=parameters.get("model_name", None),
+            model_name=parameters.get("model_name", default_model_name),
             model_path=model_path,
             tags=parameters.get("model_tags", None),
             properties=parameters.get("model_properties", None),
