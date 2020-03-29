@@ -159,7 +159,7 @@ def main():
         # Default model name
         repository_name = os.environ.get("GITHUB_REPOSITORY").split("/")[-1]
         branch_name = os.environ.get("GITHUB_REF").split("/")[-1]
-        default_model_name = f"{repository_name}_{branch_name}"
+        default_model_name = f"{repository_name}-{branch_name}".lower().replace(old="_", new="-")
 
         model = best_run.register_model(
             model_name=parameters.get("model_name", default_model_name),
