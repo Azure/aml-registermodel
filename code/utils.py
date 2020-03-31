@@ -131,3 +131,7 @@ def compare_metrics(workspace, run, model_name, metrics_max, metrics_min):
         except TypeError as exception:
             print(f"::error::Metric comparison failed for metric name '{metric_min}': {exception}")
             raise AMLConfigurationException(f"::error::Metric comparison failed for metric name '{metric_min}'")
+
+
+def mask_parameter(parameter):
+    print(f"::add-mask::{parameter}")
