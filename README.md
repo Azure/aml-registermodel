@@ -5,7 +5,7 @@
 
 The Azure Machine Learning Register Model action will register your model on AML for use in deployment and testing. This action is designed to only register the model that corresponds to the run reporting the highest metrics. This can be overruled by passing the `force_registration` as true. You will need to have azure credentials that allow you to connect to a workspace, view experiment or pipeline runs and register a model.
 
-This action requires an AML workspace to be created or attached to via the [aml-workspace](https://github.com/Azure/aml-workspace) action as well as an AML experiment or pipeline to be run with the [aml-run](https://github.com/Azure/aml-run) workspace.
+This action requires an AML workspace to be created or attached to via the [aml-workspace](https://github.com/Azure/aml-workspace) action as well as an AML experiment or pipeline to be run with the [aml-run](https://github.com/Azure/aml-run) action.
 
 This action is one in a series of actions that are used to make ML Ops systems. Examples of these can be found at [ml-template-azure](https://github.com/machine-learning-apps/ml-template-azure) and [aml-template](https://github.com/Azure/aml-template).
 
