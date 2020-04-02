@@ -3,6 +3,12 @@
 
 # Azure Machine Learning Register Model Action
 
+The Azure Machine Learning Register Model action will register your model on AML for use in deployment and testing. This action is designed to only register the model that corresponds to the run reporting the highest metrics. This can be overruled by passing the `force_registration` as true. You will need to have azure credentials that allow you to connect to a workspace, view experiment or pipeline runs and register a model.
+
+This action requires an AML workspace to be created or attached to via the [aml-workspace](https://github.com/Azure/aml-workspace) action as well as an AML experiment or pipeline to be run with the [aml-run](https://github.com/Azure/aml-run) workspace.
+
+This action is one in a series of actions that are used to make ML Ops systems. Examples of these can be found at [ml-template-azure](https://github.com/machine-learning-apps/ml-template-azure) and [aml-template](https://github.com/Azure/aml-template).
+
 ## Usage
 
 Description
@@ -26,6 +32,15 @@ jobs:
       id: aml_workspace
       with:
         azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    # AML Run Action
+    - uses: Azure/aml-run
+      id: aml_run
+      with:
+        # required inputs as secrets
+        azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+        # optional
+        parameters_file: "run.json"
 
     # AML Register Model Action
     - uses: Azure/aml-registermodel
@@ -76,24 +91,25 @@ The action expects a JSON file in the `.ml/.azure` folder in your repository, wh
 
 A sample file can be found in this repository in the folder `.ml/.azure`. The JSON file can include the following parameters:
 
-| Parameter               | Required | Allowed Values       | Default               | Description |
-| ----------------------- | -------- | -------------------- | --------------------- | ----------- |
-| model_name              |          | str                  | REPO_NAME-BRANCH_NAME |
-| model_file_name         | x        | str                  |                       |
-| model_framework         |          | str: `"scikitlearn"`, `"onnx"`, `"tensorflow"`, `"keras"`, `"custom"` | `"custom"` | 
-| model_framework_version |          | str
-| model_tags              |          | dict
-| model_properties        |          | dict
-| model_description       |          | str
-| datasets                |          | list
-| sample_input_dataset    |          | str
-| sample_output_dataset   |          | str
-| cpu                     |          | float
-| memory                  |          | float
-| pipeline_child_run_name |          | str
-| metrics_max             |          | list
-| metrics_min             |          | list
-| force_registration      |          | bool
+| Parameter               | Required | Allowed Values | Default    | Description |
+| ----------------------- | -------- | -------------- | ---------- | ----------- |
+| workspace               |          |                |            |             |
+| model_file_name         | x        | str            |            |The file name for the model asset on the local system. 
+| model_name              |          | str            | REPO_NAME-BRANCH_NAME |The name to register the model with.|
+| model_framework         |          | str: `"scikitlearn"`, `"onnx"`, `"tensorflow"`, `"keras"`, `"custom"` | `"custom"` | The framework of the registered model. Using the system-supported constants from the Framework class allows for simplified deployment for some popular frameworks. | 
+| model_framework_version |          | str      |      | The framework version of the registered model. |
+| model_tags              |          | dict  | | An optional dictionary of key value tags to assign to the model. |
+| model_properties        |          | dict  | | An optional dictionary of key value properties to assign to the model. These properties can't be changed after model creation, however new key value pairs can be added. |
+| model_description       |          | str   | | A text description of the model. |
+| datasets                |          | list  | | A list of tuples where the first element describes the dataset-model relationship and the second element is the dataset. |
+| sample_input_dataset    |          | str   | | Sample input dataset for the registered model. |
+| sample_output_dataset   |          | str   | | Sample output dataset for the registered model. |
+| cpu                     |          | float | | The cpu requirements for the model |
+| memory                  |          | float | | The memory requirements for the model |
+| pipeline_child_run_name |          | str   | | Used for fetching the best run  |
+| metrics_max             |          | list  | | For comparing metrics |
+| metrics_min             |          | list  | | For comparing metrics |
+| force_registration      |          | bool  | | Boolean value that determines whether or not to force the registration of the model regardless of the metrics |
 
 # Contributing
 
@@ -110,6 +126,6 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 
-# Todo
+# TODO
 
 - support different dataset versions
