@@ -14,7 +14,7 @@ from utils import AMLConfigurationException, required_parameters_provided, get_m
 def main():
     # Loading input values
     print("::debug::Loading input values")
-    parameters_file = os.environ.get("INPUT_PARAMETERS_FILE", default="run.json")
+    parameters_file = os.environ.get("INPUT_PARAMETERS_FILE", default="registermodel.json")
     azure_credentials = os.environ.get("INPUT_AZURE_CREDENTIALS", default="{}")
     experiment_name = os.environ.get("INPUT_EXPERIMENT_NAME", default=None)
     run_id = os.environ.get("INPUT_RUN_ID", default=None)
@@ -46,8 +46,8 @@ def main():
         with open(parameters_file_path) as f:
             parameters = json.load(f)
     except FileNotFoundError:
-        print(f"::error::Could not find parameter file in {parameters_file_path}. Please provide a parameter file in your repository (e.g. .cloud/.azure/workspace.json).")
-        raise AMLConfigurationException(f"Could not find parameter file in {parameters_file_path}. Please provide a parameter file in your repository (e.g. .cloud/.azure/workspace.json).")
+        print(f"::error::Could not find parameter file in {parameters_file_path}. Please provide a parameter file in your repository (e.g. .cloud/.azure/registermodel.json).")
+        raise AMLConfigurationException(f"Could not find parameter file in {parameters_file_path}. Please provide a parameter file in your repository (e.g. .cloud/.azure/registermodel.json).")
 
     # Loading Workspace
     print("::debug::Loading AML Workspace")
@@ -135,6 +135,7 @@ def main():
     # Defining model path
     print("::debug::Defining model path")
     model_file_name = parameters.get("model_file_name", None)
+    model_file_name = os.path.split(model_file_name)[-1]
     model_path = [file_name for file_name in best_run.get_file_names() if model_file_name in os.path.split(file_name)[-1]][0]
 
     # Defining datasets

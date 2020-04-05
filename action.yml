@@ -9,7 +9,7 @@ inputs:
     description: "ID of the run or pipeline run for which a model is to be registered"
     required: true
   experiment_name:
-    description: "Experiment to which the run belongs to"
+    description: "Experiment name to which the run belongs to"
     required: true
   parameters_file:
     description: "JSON file including the parameters for registering the model."
