@@ -36,8 +36,8 @@ def get_best_run(experiment, run, pipeline_child_run_name=None):
         # Loading pipeline step by name
         run = run.find_step_run(name=pipeline_child_run_name)
         if len(run) < 1:
-            print(f"::error::Found no step in the pipeline with the name '{pipeline_child_run_name}'")
-            raise AMLConfigurationException(f"Found more than one step in the pipeline with the name '{pipeline_child_run_name}'")
+            print(f"::error::Found no step in the pipeline with the name '{pipeline_child_run_name}'. Please provide the name of the step in your pipeline that produced the model file with the 'pipeline_child_run_name' parameter.")
+            raise AMLConfigurationException(f"Foundno step in the pipeline with the name '{pipeline_child_run_name}'. Please provide the name of the step in your pipeline that produced the model file with the 'pipeline_child_run_name' parameter.")
         elif len(run) > 1:
             print(f"::error::Found more than one step in the pipeline with the name '{pipeline_child_run_name}'. All step names should be unique in the pipeline.")
             raise AMLConfigurationException(f"Found more than one step in the pipeline with the name '{pipeline_child_run_name}'. All step names should be unique in the pipeline.")

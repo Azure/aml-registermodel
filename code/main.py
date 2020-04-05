@@ -46,8 +46,8 @@ def main():
         with open(parameters_file_path) as f:
             parameters = json.load(f)
     except FileNotFoundError:
-        print(f"::error::Could not find parameter file in {parameters_file_path}. Please provide a parameter file in your repository (e.g. .cloud/.azure/registermodel.json).")
-        raise AMLConfigurationException(f"Could not find parameter file in {parameters_file_path}. Please provide a parameter file in your repository (e.g. .cloud/.azure/registermodel.json).")
+        print(f"::debug::Could not find parameter file in {parameters_file_path}. Please provide a parameter file in your repository if you do not want to use default settings (e.g. .cloud/.azure/registermodel.json).")
+        parameters = {}
 
     # Loading Workspace
     print("::debug::Loading AML Workspace")
@@ -104,7 +104,7 @@ def main():
     best_run = get_best_run(
         experiment=experiment,
         run=run,
-        pipeline_child_run_name=parameters.get("pipeline_child_run_name", None)
+        pipeline_child_run_name=parameters.get("pipeline_child_run_name", "model_training")
     )
 
     # Comparing metrics of runs
@@ -118,14 +118,6 @@ def main():
             metrics_min=parameters.get("metrics_min", [])
         )
 
-    # Checking provided parameters
-    print("::debug::Checking provided parameters")
-    required_parameters_provided(
-        parameters=parameters,
-        keys=["model_file_name"],
-        message="Required parameter(s) not found in your parameters file for registering the model. Please provide a value for the following key(s): "
-    )
-
     # Defining model framework
     print("::debug::Defining model framework")
     model_framework = get_model_framework(
@@ -134,7 +126,7 @@ def main():
 
     # Defining model path
     print("::debug::Defining model path")
-    model_file_name = parameters.get("model_file_name", None)
+    model_file_name = parameters.get("model_file_name", "model.pkl")
     model_file_name = os.path.split(model_file_name)[-1]
     model_path = [file_name for file_name in best_run.get_file_names() if model_file_name in os.path.split(file_name)[-1]][0]
 

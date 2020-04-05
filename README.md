@@ -94,14 +94,14 @@ Add this JSON output as [a secret](https://help.github.com/en/actions/configurin
 
 #### Parameters File
 
-The action expects a JSON file in the `.cloud/.azure` folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action expects a file with the name `registermodel.json`. If your JSON file has a different name, you can specify it with this parameter.
+The action tries to load a JSON file in the `.cloud/.azure` folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name `registermodel.json`. If your JSON file has a different name, you can specify it with this parameter.
 
 A sample file can be found in this repository in the folder `.cloud/.azure`. The JSON file can include the following parameters:
 
 | Parameter               | Required | Allowed Values | Default    | Description |
 | ----------------------- | -------- | -------------- | ---------- | ----------- |
-| model_file_name         | x        | str            | -          | The file name for the model asset. You only have to specify the name of the model file (e.g. (`"model.pkl"`)) and not the path (e.g. `"outputs/model.pkl"`). The can take care of the path that was used to store the file. |
-| pipeline_child_run_name | (for pipeline runs) | str   | | If you provided a run ID of a pipeline to this GitHub Action, you have to specify the name of the step that produced the model. Without providing the name of the step that produced the model, the Action does not know where to look for the model file. The step in the pipeline with the provided name can be of any type (HyperDriveStep, PythonScriptStep, etc.). There are no limitations on the step type.  |
+| model_file_name         |          | str            | `"model.pkl"` | The file name for the model asset. You only have to specify the name of the model file (e.g. (`"model.pkl"`)) and not the path (e.g. `"outputs/model.pkl"`). The can take care of the path that was used to store the file. |
+| pipeline_child_run_name |  | str   | `"model_training"` | If you provided a run ID of a pipeline to this GitHub Action, you have to specify the name of the step that produced the model. Without providing the name of the step that produced the model, the Action does not know where to look for the model file. The step in the pipeline with the provided name can be of any type (HyperDriveStep, PythonScriptStep, etc.). There are no limitations on the step type.  |
 | model_name              |          | str            | <REPO_NAME>-<BRANCH_NAME> |The name to register the model with. |
 | model_framework         |          | str: `"scikitlearn"`, `"onnx"`, `"tensorflow"`, `"keras"`, `"custom"` | `"custom"` | The framework of the registered model. | 
 | model_framework_version |          | str      | null     | The framework version of the registered model. |
