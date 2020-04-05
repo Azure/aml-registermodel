@@ -109,11 +109,15 @@ def main():
 
     # Comparing metrics of runs
     print("::debug::Comparing metrics of runs")
+    # Default model name
+    repository_name = os.environ.get("GITHUB_REPOSITORY").split("/")[-1]
+    branch_name = os.environ.get("GITHUB_REF").split("/")[-1]
+    default_model_name = f"{repository_name}-{branch_name}"
     if not parameters.get("force_registration", False):
         compare_metrics(
             workspace=ws,
             run=best_run,
-            model_name=parameters.get("model_name", None),
+            model_name=parameters.get("model_name", default_model_name),
             metrics_max=parameters.get("metrics_max", []),
             metrics_min=parameters.get("metrics_min", [])
         )
@@ -156,11 +160,6 @@ def main():
     resource_configuration = ResourceConfiguration(cpu=cpu, memory_in_gb=memory) if (cpu is not None and memory is not None) else None
 
     try:
-        # Default model name
-        repository_name = os.environ.get("GITHUB_REPOSITORY").split("/")[-1]
-        branch_name = os.environ.get("GITHUB_REF").split("/")[-1]
-        default_model_name = f"{repository_name}-{branch_name}"
-
         model = best_run.register_model(
             model_name=parameters.get("model_name", default_model_name),
             model_path=model_path,
