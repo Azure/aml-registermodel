@@ -94,7 +94,7 @@ Add this JSON output as [a secret](https://help.github.com/en/actions/configurin
 
 #### Parameters File
 
-The action tries to load a JSON file in the `.cloud/.azure` folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name `registermodel.json`. If your JSON file has a different name, you can specify it with this parameter.
+The action tries to load a JSON file in the `.cloud/.azure` folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name `registermodel.json`. If your JSON file has a different name, you can specify it with this parameter. Note that none of these values are required and in the absence, defaults will be used.
 
 A sample file can be found in this repository in the folder `.cloud/.azure`. The JSON file can include the following parameters:
 
