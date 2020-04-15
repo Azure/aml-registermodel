@@ -101,7 +101,7 @@ A sample file can be found in this repository in the folder `.cloud/.azure`. The
 | Parameter               | Required | Allowed Values | Default    | Description |
 | ----------------------- | -------- | -------------- | ---------- | ----------- |
 | model_file_name         |          | str            | `"model.pkl"` | The file name for the model asset. You only have to specify the name of the model file (e.g. (`"model.pkl"`)) and not the path (e.g. `"outputs/model.pkl"`). The can take care of the path that was used to store the file. |
-| model_name              |          | str            | <REPO_NAME>-<BRANCH_NAME> |The name to register the model with. |
+| model_name              |          | str            | <REPO_NAME>-<BRANCH_NAME> |The name to register the model with. It must only consist of letters, numbers, dashes, periods, or underscores, start with a letter or number, and be between 1 and 32 characters long. |
 | model_framework         |          | str: `"scikitlearn"`, `"onnx"`, `"tensorflow"`, `"keras"`, `"custom"` | `"custom"` | The framework of the registered model. | 
 | model_framework_version |          | str      | null     | The framework version of the registered model. |
 | model_tags              |          | dict: {"<your-run-tag-key>": "<your-run-tag-value>", ...}  | null | An optional dictionary of key value tags to assign to the model. |

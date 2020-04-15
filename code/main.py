@@ -117,7 +117,7 @@ def main():
         compare_metrics(
             workspace=ws,
             run=best_run,
-            model_name=parameters.get("model_name", default_model_name),
+            model_name=parameters.get("model_name", default_model_name)[:32],
             metrics_max=parameters.get("metrics_max", []),
             metrics_min=parameters.get("metrics_min", [])
         )
@@ -161,7 +161,7 @@ def main():
 
     try:
         model = best_run.register_model(
-            model_name=parameters.get("model_name", default_model_name),
+            model_name=parameters.get("model_name", default_model_name)[:32],
             model_path=model_path,
             tags=parameters.get("model_tags", None),
             properties=parameters.get("model_properties", None),
