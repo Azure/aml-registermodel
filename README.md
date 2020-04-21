@@ -38,13 +38,13 @@ jobs:
         azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
     
     # AML Run Action
-    - uses: Azure/aml-run
+    - uses: Azure/aml-run@v1
       id: aml_run
       with:
         azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
     # AML Register Model Action
-    - uses: Azure/aml-registermodel
+    - uses: Azure/aml-registermodel@v1
       id: aml_registermodel
       with:
         # required inputs
