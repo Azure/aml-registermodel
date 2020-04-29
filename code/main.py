@@ -78,7 +78,7 @@ def main():
         raise ProjectSystemException
 
     # check if user has provided model path
-    model_path = None;
+    model_path = None
     from_local = False
 
     # Default model name
@@ -86,9 +86,8 @@ def main():
     branch_name = os.environ.get("GITHUB_REF").split("/")[-1]
     default_model_name = f"{repository_name}-{branch_name}"
 
-    # if user has provided run_id , we respect it. 
+    # if user has provided run_id , we take it first.
     if run_id is not None:
-        
         # Loading experiment
         print("::debug::Loading experiment")
         try:
@@ -137,7 +136,7 @@ def main():
         # finally update the model path
         model_path = [file_name for file_name in best_run.get_file_names() if model_file_name in os.path.split(file_name)[-1]][0]
     else:
-        model_path  = parameters.get("model_file_name", "model.pkl") # if run id is not present then check if model file is present locally, in that case the path is defined
+        model_path = parameters.get("model_file_name", "model.pkl")  # if run id is not present then check if model file is present locally, in that case the path is defined
         from_local = True
 
     # Defining model framework
@@ -173,18 +172,18 @@ def main():
     if from_local is True:
         try:
             model = Model.register(workspace=ws,
-                        model_name=parameters.get("model_name", default_model_name)[:32],
-                        model_path=model_path,
-                        tags=parameters.get("model_tags", None),
-                        properties=parameters.get("model_properties", None),
-                        model_framework=model_framework,
-                        model_framework_version=parameters.get("model_framework_version", None),
-                        description=parameters.get("model_description", None),
-                        datasets=datasets,
-                        sample_input_dataset=input_dataset,
-                        sample_output_dataset=output_dataset,
-                        resource_configuration=resource_configuration
-                    )
+                model_name=parameters.get("model_name", default_model_name)[:32],
+                model_path=model_path,
+                tags=parameters.get("model_tags", None),
+                properties=parameters.get("model_properties", None),
+                model_framework=model_framework,
+                model_framework_version=parameters.get("model_framework_version", None),
+                description=parameters.get("model_description", None),
+                datasets=datasets,
+                sample_input_dataset=input_dataset,
+                sample_output_dataset=output_dataset,
+                resource_configuration=resource_configuration
+            )
         except UserErrorException as exception:
             print(f"::error::Model not found at the mentioned path : {exception}")
             raise AMLConfigurationException(f"Model file not found in path. Please provide the correct model file name with path and make sure that the model exist in the repository.")
