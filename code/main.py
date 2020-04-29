@@ -171,7 +171,8 @@ def main():
     resource_configuration = ResourceConfiguration(cpu=cpu, memory_in_gb=memory) if (cpu is not None and memory is not None) else None
     if from_local is True:
         try:
-            model = Model.register(workspace=ws,
+            model = Model.register(
+                workspace=ws,
                 model_name=parameters.get("model_name", default_model_name)[:32],
                 model_path=model_path,
                 tags=parameters.get("model_tags", None),
