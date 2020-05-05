@@ -1,3 +1,5 @@
+import jsonschema
+
 from azureml.core import Model, Dataset
 from azureml.train.hyperdrive import HyperDriveRun
 from azureml.pipeline.core import PipelineRun
@@ -10,17 +12,6 @@ class AMLConfigurationException(Exception):
 
 class AMLModelPerformanceException(Exception):
     pass
-
-
-def required_parameters_provided(parameters, keys, message="Required parameter not found in your parameters file. Please provide a value for the following key(s): "):
-    missing_keys = []
-    for key in keys:
-        if key not in parameters:
-            err_msg = f"{message} {key}"
-            print(f"::error::{err_msg}")
-            missing_keys.append(key)
-    if len(missing_keys) > 0:
-        raise AMLConfigurationException(f"{message} {missing_keys}")
 
 
 def get_best_run(experiment, run, pipeline_child_run_name=None):
@@ -135,3 +126,14 @@ def compare_metrics(workspace, run, model_name, metrics_max, metrics_min):
 
 def mask_parameter(parameter):
     print(f"::add-mask::{parameter}")
+
+
+def validate_json(data, schema, input_name):
+    validator = jsonschema.Draft7Validator(schema)
+    errors = validator.iter_errors(data)
+    if len(list(errors)) > 0:
+        for error in errors:
+            print(f"::error::JSON validation error: {error}")
+        raise AMLConfigurationException(f"JSON validation error for '{input_name}'. Provided object does not match schema. Please check the output for more details.")
+    else:
+        print(f"::debug::JSON validation passed for '{input_name}'. Provided object does match schema.")
