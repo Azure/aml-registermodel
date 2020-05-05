@@ -16,7 +16,8 @@ def test_validate_json_valid_inputs():
     json_object = {
         "model_name": "model-name",
         "model_file_name": "model-file-name",
-        "model_framework": "onnx"
+        "model_framework": "onnx",
+        "metrics_min": []
     }
     validate_json(
         data=json_object,
@@ -30,7 +31,7 @@ def test_validate_json_invalid_json():
     Unit test to check the validate_json function with invalid json_object inputs
     """
     json_object = {
-        "cpu": "0.1"
+        "cpu_cores": "0.1"
     }
     with pytest.raises(AMLConfigurationException):
         assert validate_json(

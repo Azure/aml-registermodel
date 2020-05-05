@@ -167,8 +167,8 @@ def main():
 
     # Defining resource configuration
     print("::debug::Defining resource configuration")
-    cpu = parameters.get("cpu", None)
-    memory = parameters.get("memory", None)
+    cpu = parameters.get("cpu_cores", None)
+    memory = parameters.get("memory_gb", None)
     resource_configuration = ResourceConfiguration(cpu=cpu, memory_in_gb=memory) if (cpu is not None and memory is not None) else None
 
     try:

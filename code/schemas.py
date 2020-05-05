@@ -65,7 +65,7 @@ parameters_schema = {
         },
         "datasets": {
             "type": "array",
-            "description": "A list of dataset names that are regstered in your workspace that should be assigned to the registered model."
+            "description": "A list of dataset names that are registered in your workspace that should be assigned to the registered model."
         },
         "sample_input_dataset": {
             "type": "string",
@@ -79,13 +79,15 @@ parameters_schema = {
             "type": "string",
             "description": "If you provided a run ID of a pipeline to this GitHub Action, you have to specify the name of the step that produced the model."
         },
-        "cpu": {
+        "cpu_cores": {
             "type": "number",
-            "description": "The number of CPU cores to allocate for this resource."
+            "description": "The number of CPU cores to allocate for this resource.",
+            "exclusiveMinimum": 0.0
         },
-        "memory": {
+        "memory_gb": {
             "type": "number",
-            "description": "The amount of memory (in GB) to allocate for this resource."
+            "description": "The amount of memory (in GB) to allocate for this resource.",
+            "exclusiveMinimum": 0.0
         },
         "metrics_max": {
             "type": "array",
