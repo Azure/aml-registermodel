@@ -5,11 +5,15 @@
 
 ## Usage
 
-The Azure Machine Learning Register Model action will register your model in the Azure Machine Learning model registry for use in deployment and testing. This action is designed to only register the model, if the run has produced better metrics than the latest model that is registered under the same name. The metrics comparison can be controlled with the `metrics_max` and `metrics_min` parameters. These parameters define the names of the metrics that should be used for a comparison. Only if the model performs better for all metrics, the actions completes successfully and registers the model.
+The Azure Machine Learning Register Model action will register your model in the Azure Machine Learning model registry for use in deployment and testing. This action is designed to register models that
+1. Have been created via a (pipeline) run in Azure Machine Learning or
+2. Are stored in your GitHub repository.
+
+If the model has been created by an Azure Machine Learning (pipeline) run and is not stored in your repository, the GitHub Action allows you to define metrics that will be compared with the latest model that is registered under the same name. The metrics comparison can be controlled with the `metrics_max` and `metrics_min` parameters. If you do so, the newly trained model will only be registered, if it performs better for all specified metrics. If the new model performs worse, the action fails with an error message. The parameters `metrics_max` and `metrics_min` define the names of the metrics that should be used for a comparison.
 
 This behavior can be overruled by passing the `force_registration` as true. You will need to have azure credentials that allow you to connect to the Azure MAchine Learning workspace.
 
-This action requires an AML workspace to be created or attached to via the [aml-workspace](https://github.com/Azure/aml-workspace) action as well as a run that produces a model that can be either be created via the [aml-run](https://github.com/Azure/aml-run) action or supplied directly via the `experiment_name` and `run_id` input parameters.
+This action requires an AML workspace to be created or attached to via the [aml-workspace](https://github.com/Azure/aml-workspace) action.
 
 ## Template repositories
 
@@ -60,8 +64,8 @@ jobs:
 | Input | Required | Default | Description |
 | ----- | -------- | ------- | ----------- |
 | azure_credentials | x | - | Output of `az ad sp create-for-rbac --name <your-sp-name> --role contributor --scopes /subscriptions/<your-subscriptionId>/resourceGroups/<your-rg> --sdk-auth`. This should be stored in your secrets. |
-| experiment_name | x | - | Experiment name to which the run belongs to. |
-| run_id | x | - | ID of the run or pipeline run for which a model is to be registered. |
+| experiment_name |  | - | Experiment name to which the run belongs to. This input is required, if you want to register a model that is stored in the outputs of an AML (pipeline) run. This is not required, if the model is stored in your repository. |
+| run_id |  | - | ID of the run or pipeline run for which a model is to be registered. This input is required, if you want to register a model that is stored in the outputs of an AML (pipeline) run. This is not required, if the model is stored in your repository. |
 | parameters_file |  | `"registermodel.json"` | JSON file in the `.cloud/.azure` folder specifying your Azure Machine Learning model registration details. |
 
 #### Azure Credentials
@@ -92,6 +96,16 @@ This will generate the following JSON output:
 
 Add this JSON output as [a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) with the name `AZURE_CREDENTIALS` in your GitHub repository.
 
+#### Experiment Name
+
+This action input defines the experiment name to which the run with the ID `run_id` belongs to. This run must have created a model file with the name `model_file_name` (defined in the input file). The model file will be registered in the model registry in Azure Machine Learning by this action.
+If this input is not defined, the action will try to find a model file with the name `model_file_name` (defined in the parameters file) in your GitHub repository. If the model file is available in your repository, it will be registered in the Azure Machine Learning model registry.
+
+#### Run ID
+
+This actioninput defines the run, which created a model file with the name `model_file_name` (defined in the parameters file). The model file will be registered in the model registry in Azure Machine Learning by this action.
+If this input is not defined, the action will try to find a model file with the name `model_file_name` (defined in the parameters file) in your GitHub repository. If the model file is available in your repository, it will be registered in the Azure Machine Learning model registry.
+
 #### Parameters File
 
 The action tries to load a JSON file in the `.cloud/.azure` folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name `registermodel.json`. If your JSON file has a different name, you can specify it with this parameter. Note that none of these values are required and in the absence, defaults will be used.
@@ -100,7 +114,7 @@ A sample file can be found in this repository in the folder `.cloud/.azure`. The
 
 | Parameter               | Required | Allowed Values | Default    | Description |
 | ----------------------- | -------- | -------------- | ---------- | ----------- |
-| model_file_name         |          | str            | `"model.pkl"` | The file name for the model asset. You only have to specify the name of the model file (e.g. (`"model.pkl"`)) and not the path (e.g. `"outputs/model.pkl"`). The action can take care of the path that was used to store the file. You can also specify the path, if you want to. |
+| model_file_name         |          | str            | `"model.pkl"` | The file name for the model asset. You only have to specify the name of the model file (e.g. (`"model.pkl"`)) and not the path (e.g. `"outputs/model.pkl"`). The action can take care of the path that was used to store the file. You can also specify the path, if you want to. If you want to register an entire folder, then just specify the folder with this parameter. |
 | model_name              |          | str            | <REPO_NAME>-<BRANCH_NAME> |The name to register the model with. It must only consist of letters, numbers, dashes, periods, or underscores, start with a letter or number, and be between 1 and 32 characters long. |
 | model_framework         |          | str: `"scikitlearn"`, `"onnx"`, `"tensorflow"`, `"keras"`, `"custom"` | `"custom"` | The framework of the registered model. | 
 | model_framework_version |          | str      | null     | The framework version of the registered model. |
