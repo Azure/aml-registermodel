@@ -159,7 +159,7 @@ def main():
                 metrics_max=parameters.get("metrics_max", []),
                 metrics_min=parameters.get("metrics_min", [])
             )
-        
+
         # Defining model path
         print("::debug::Defining model path")
         model_file_name = parameters.get("model_file_name", "model.pkl")
@@ -167,7 +167,6 @@ def main():
             model_path = model_file_name
         else:
             model_path = [file_name for file_name in best_run.get_file_names() if model_file_name in os.path.split(file_name)[-1]][0]
-        
 
     # Defining model framework
     print("::debug::Defining model framework")
