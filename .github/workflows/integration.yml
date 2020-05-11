@@ -30,7 +30,7 @@ jobs:
 
       # register a given model from local system with AML; do not provide run id if model is from local repo
       - name: Register a Model from compute
-        id: ws_registerModel
+        id: ws_registerModel_local
         uses: ./
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
