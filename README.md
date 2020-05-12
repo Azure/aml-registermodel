@@ -11,7 +11,7 @@ The Azure Machine Learning Register Model action will register your model in the
 
 If the model has been created by an Azure Machine Learning (pipeline) run and is not stored in your repository, the GitHub Action allows you to define metrics that will be compared with the latest model that is registered under the same name. The metrics comparison can be controlled with the `metrics_max` and `metrics_min` parameters. If you do so, the newly trained model will only be registered, if it performs better for all specified metrics. If the new model performs worse, the action fails with an error message. The parameters `metrics_max` and `metrics_min` define the names of the metrics that should be used for a comparison.
 
-This behavior can be overruled by passing the `force_registration` as true. You will need to have azure credentials that allow you to connect to the Azure MAchine Learning workspace.
+This behavior can be overruled by passing the `force_registration` as true. You will need to have azure credentials that allow you to connect to the Azure Machine Learning workspace.
 
 This action requires an AML workspace to be created or attached to via the [aml-workspace](https://github.com/Azure/aml-workspace) action.
 
@@ -103,7 +103,7 @@ If this input is not defined, the action will try to find a model file with the 
 
 #### Run ID
 
-This actioninput defines the run, which created a model file with the name `model_file_name` (defined in the parameters file). The model file will be registered in the model registry in Azure Machine Learning by this action.
+This action input defines the run, which created a model file with the name `model_file_name` (defined in the parameters file). The model file will be registered in the model registry in Azure Machine Learning by this action.
 If this input is not defined, the action will try to find a model file with the name `model_file_name` (defined in the parameters file) in your GitHub repository. If the model file is available in your repository, it will be registered in the Azure Machine Learning model registry.
 
 #### Parameters File
