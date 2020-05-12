@@ -93,7 +93,7 @@ def main():
     repository_name = os.environ.get("GITHUB_REPOSITORY").split("/")[-1]
     branch_name = os.environ.get("GITHUB_REF").split("/")[-1]
     default_model_name = f"{repository_name}-{branch_name}"
-    print(f"experiment name : {experiment_name} and run_id: {run_id} ")
+    print(f"::debug::experiment_name: '{experiment_name}' and run_id: '{run_id}'")
     if not experiment_name or not run_id:
         # Registering model from local GitHub workspace
         print("::debug::Registering model from local GitHub workspace")
