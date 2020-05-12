@@ -25,7 +25,7 @@ def main():
         azure_credentials = json.loads(azure_credentials)
     except JSONDecodeError:
         print("::error::Please paste output of `az ad sp create-for-rbac --name <your-sp-name> --role contributor --scopes /subscriptions/<your-subscriptionId>/resourceGroups/<your-rg> --sdk-auth` as value of secret variable: AZURE_CREDENTIALS")
-        raise AMLConfigurationException(f"Incorrect or poorly formed output from azure credentials saved in AZURE_CREDENTIALS secret. See setup in https://github.com/Azure/aml-workspace/blob/master/README.md")
+        raise AMLConfigurationException("Incorrect or poorly formed output from azure credentials saved in AZURE_CREDENTIALS secret. See setup in https://github.com/Azure/aml-workspace/blob/master/README.md")
 
     # Checking provided parameters
     print("::debug::Checking provided parameters")
@@ -127,7 +127,7 @@ def main():
             )
         except UserErrorException as exception:
             print(f"::error::Loading experiment failed: {exception}")
-            raise AMLConfigurationException(f"Could not load experiment. Please your experiment name as input parameter.")
+            raise AMLConfigurationException("Could not load experiment. Please your experiment name as input parameter.")
 
         # Loading run by run id
         print("::debug::Loading run by run id")
@@ -138,7 +138,7 @@ def main():
             )
         except KeyError as exception:
             print(f"::error::Loading run failed: {exception}")
-            raise AMLConfigurationException(f"Could not load run. Please add your run id as input parameter.")
+            raise AMLConfigurationException("Could not load run. Please add your run id as input parameter.")
 
         # Loading best run
         print("::debug::Loading best run")
@@ -239,7 +239,7 @@ def main():
             )
         except ModelPathNotFoundException as exception:
             print(f"::error::Model name not found in outputs folder. Please provide the correct model file name and make sure that the model was saved by the run: {exception}")
-            raise AMLConfigurationException(f"Model name not found in outputs folder. Please provide the correct model file name and make sure that the model was saved by the run.")
+            raise AMLConfigurationException("Model name not found in outputs folder. Please provide the correct model file name and make sure that the model was saved by the run.")
         except WebserviceException as exception:
             print(f"::error::Model could not be registered: {exception}")
             raise AMLConfigurationException("Model could not be registered")
