@@ -1,25 +1,35 @@
 ![Integration Test](https://github.com/Azure/aml-registermodel/workflows/Integration%20Test/badge.svg?branch=master&event=push)
 ![Lint and Test](https://github.com/Azure/aml-registermodel/workflows/Lint%20and%20Test/badge.svg?branch=master&event=push)
 
-# Azure Machine Learning Register Model Action
+# GitHub Action for Registering a Machine Learning Models with Azure
 
 ## Usage
 
-The Azure Machine Learning Register Model action will register your model in the Azure Machine Learning model registry for use in deployment and testing. This action is designed to register models that
-1. Have been created via a (pipeline) run in Azure Machine Learning or
-2. Are stored in your GitHub repository.
+The Register Machine Learning Models with Azure action will deploy your model on [Azure Machine Learning](https://azure.microsoft.com/en-us/services/machine-learning/) using GitHub Actions.
 
-If the model has been created by an Azure Machine Learning (pipeline) run and is not stored in your repository, the GitHub Action allows you to define metrics that will be compared with the latest model that is registered under the same name. The metrics comparison can be controlled with the `metrics_max` and `metrics_min` parameters. If you do so, the newly trained model will only be registered, if it performs better for all specified metrics. If the new model performs worse, the action fails with an error message. The parameters `metrics_max` and `metrics_min` define the names of the metrics that should be used for a comparison.
+Get started today with a [free Azure account](https://azure.com/free/open-source)!
 
-This behavior can be overruled by passing the `force_registration` as true. You will need to have azure credentials that allow you to connect to the Azure Machine Learning workspace.
+This repository contains GitHub Action for registering Machine Learning Models with Azure Machine Learning model registry for use in deployment and testing. This action is designed to register models that may or may not have been trained using Azure Machine Learning. If they are not trained using Azure Machine Learning, we expect the model to be present in your GitHub Repository.
 
-This action requires an AML workspace to be created or attached to via the [aml-workspace](https://github.com/Azure/aml-workspace) action.
+Additionally, this action also supports model comparison, if the model has been created by an Azure Machine Learning (pipeline) run and is not stored in your repository. This GitHub Action allows you to define metrics that will be compared with the latest model that is registered under the same name and the newly trained model will only be registered, if it performs better for all specified metrics.
 
-## Template repositories
 
-This action is one in a series of actions that can be used to setup an ML Ops process. Examples of these can be found at
-1. Simple example: [ml-template-azure](https://github.com/machine-learning-apps/ml-template-azure) and
-2. Comprehensive example: [aml-template](https://github.com/Azure/aml-template).
+## Dependencies on other GitHub Actions
+* [Checkout](https://github.com/actions/checkout) Checkout your Git repository content into GitHub Actions agent.
+* [aml-workspace](https://github.com/Azure/aml-workspace) This action requires an Azure Machine Learning workspace to be present. You can either create a new one or re-use an existing one using the action. 
+
+
+## Create Azure Machine Learning and deploy an machine learning model using GitHub Actions
+
+This action is one in a series of actions that can be used to setup an ML Ops process. **We suggest getting started with one of our template repositories**, which will allow you to create an ML Ops process in less than 5 minutes.
+
+1. **Simple template repository: [ml-template-azure](https://github.com/machine-learning-apps/ml-template-azure)**
+
+    Go to this template and follow the getting started guide to setup an ML Ops process within minutes and learn how to use the Azure       Machine Learning GitHub Actions in combination. This template demonstrates a very simple process for training and deploying machine     learning models.
+
+2. **Advanced template repository: [aml-template](https://github.com/Azure/aml-template)**
+
+    This template demonstrates how approval processes can be included in the process and how training and deployment workflows can be       splitted. It also shows how workflows (e.g. deployment) can be triggered from pull requests. More enhancements will be added to this     template in the future to make it more enterprise ready.
 
 ### Example workflow
 
@@ -66,9 +76,9 @@ jobs:
 | azure_credentials | x | - | Output of `az ad sp create-for-rbac --name <your-sp-name> --role contributor --scopes /subscriptions/<your-subscriptionId>/resourceGroups/<your-rg> --sdk-auth`. This should be stored in your secrets. |
 | experiment_name |  | - | Experiment name to which the run belongs to. This input is required, if you want to register a model that is stored in the outputs of an AML (pipeline) run. This is not required, if the model is stored in your repository. |
 | run_id |  | - | ID of the run or pipeline run for which a model is to be registered. This input is required, if you want to register a model that is stored in the outputs of an AML (pipeline) run. This is not required, if the model is stored in your repository. |
-| parameters_file |  | `"registermodel.json"` | JSON file in the `.cloud/.azure` folder specifying your Azure Machine Learning model registration details. |
+| parameters_file |  | `"registermodel.json"` | We expect a JSON file in the `.cloud/.azure` folder in root of your repository specifying your Azure Machine Learning model registration details. If you have want to provide these details in a file other than "registermodel.json" you need to provide this input in the action. |
 
-#### Azure Credentials
+#### azure_credential (Azure Credentials)
 
 Azure credentials are required to connect to your Azure Machine Learning Workspace. These may have been created for an action you are already using in your repository, if so, you can skip the steps below.
 
@@ -96,17 +106,17 @@ This will generate the following JSON output:
 
 Add this JSON output as [a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets) with the name `AZURE_CREDENTIALS` in your GitHub repository.
 
-#### Experiment Name
+#### experiment_name (Experiment Name)
 
 This action input defines the experiment name to which the run with the ID `run_id` belongs to. This run must have created a model file with the name `model_file_name` (defined in the input file). The model file will be registered in the model registry in Azure Machine Learning by this action.
 If this input is not defined, the action will try to find a model file with the name `model_file_name` (defined in the parameters file) in your GitHub repository. If the model file is available in your repository, it will be registered in the Azure Machine Learning model registry.
 
-#### Run ID
+#### run_id (Run ID)
 
 This action input defines the run, which created a model file with the name `model_file_name` (defined in the parameters file). The model file will be registered in the model registry in Azure Machine Learning by this action.
 If this input is not defined, the action will try to find a model file with the name `model_file_name` (defined in the parameters file) in your GitHub repository. If the model file is available in your repository, it will be registered in the Azure Machine Learning model registry.
 
-#### Parameters File
+#### parameters_file (Parameters File)
 
 The action tries to load a JSON file in the `.cloud/.azure` folder in your repository, which specifies details for the model registration to your Azure Machine Learning Workspace. By default, the action is looking for a file with the name `registermodel.json`. If your JSON file has a different name, you can specify it with this parameter. Note that none of these values are required and in the absence, defaults will be used.
 
