@@ -1,7 +1,7 @@
 ![Integration Test](https://github.com/Azure/aml-registermodel/workflows/Integration%20Test/badge.svg?branch=master&event=push)
 ![Lint and Test](https://github.com/Azure/aml-registermodel/workflows/Lint%20and%20Test/badge.svg?branch=master&event=push)
 
-# GitHub Action for Registering a Machine Learning Models with Azure
+# GitHub Action for Registering a Machine Learning Model in Azure
 
 ## Usage
 
