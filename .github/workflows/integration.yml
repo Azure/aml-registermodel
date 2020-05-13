@@ -18,12 +18,21 @@ jobs:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           parameters_file: "test/test_workspace.json"
 
+      # register a given model from local system with AML
+      - name: Register a local model 
+        id: ws_registerlocalmodel
+        uses: ./
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          parameters_file: "test/test_registermodel_fromlocal.json"
+
       # register a given model with AML
       - name: Register a Model from compute
-        id: ws_registerModel
+        id: ws_registermodel
         uses: ./
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           run_id: "aml-run-intTest_1589096763_b5ed2189"
           experiment_name: "aml-run-intTest"
           parameters_file: "test/test_registermodel.json"
+
