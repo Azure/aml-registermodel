@@ -9,7 +9,7 @@ The Register Machine Learning Models with Azure action will deploy your model on
 
 Get started today with a [free Azure account](https://azure.com/free/open-source)!
 
-This repository contains GitHub Action for registering Machine Learning Models with Azure Machine Learning model registry for use in deployment and testing. This action is designed to register models that may or may not have been trained using Azure Machine Learning. If they are not trained using Azure Machine Learning, we expect the model to be present in your GitHub Repository.
+This repository contains a GitHub Action for registering Machine Learning Models with Azure Machine Learning model registry for use in deployment and testing. This action is designed to register models that may or may not have been trained using Azure Machine Learning. If they are not trained using Azure Machine Learning, we expect the model to be present in your GitHub Repository.
 
 Additionally, this action also supports model comparison, if the model has been created by an Azure Machine Learning (pipeline) run and is not stored in your repository. This GitHub Action allows you to define metrics that will be compared with the latest model that is registered under the same name and the newly trained model will only be registered, if it performs better for all specified metrics.
 
@@ -19,17 +19,17 @@ Additionally, this action also supports model comparison, if the model has been 
 * [aml-workspace](https://github.com/Azure/aml-workspace) This action requires an Azure Machine Learning workspace to be present. You can either create a new one or re-use an existing one using the action. 
 
 
-## Create Azure Machine Learning and deploy an machine learning model using GitHub Actions
+## Utilize GitHub Actions and Azure Machine Learning to deploy a machine learning model
 
 This action is one in a series of actions that can be used to setup an ML Ops process. **We suggest getting started with one of our template repositories**, which will allow you to create an ML Ops process in less than 5 minutes.
 
 1. **Simple template repository: [ml-template-azure](https://github.com/machine-learning-apps/ml-template-azure)**
 
-    Go to this template and follow the getting started guide to setup an ML Ops process within minutes and learn how to use the Azure       Machine Learning GitHub Actions in combination. This template demonstrates a very simple process for training and deploying machine     learning models.
+    Go to this template and follow the getting started guide to setup an ML Ops process within minutes and learn how to use the Azure Machine Learning GitHub Actions in combination. This template demonstrates a very simple process for training and deploying machine learning models.
 
 2. **Advanced template repository: [aml-template](https://github.com/Azure/aml-template)**
 
-    This template demonstrates how approval processes can be included in the process and how training and deployment workflows can be       splitted. It also shows how workflows (e.g. deployment) can be triggered from pull requests. More enhancements will be added to this     template in the future to make it more enterprise ready.
+    This template demonstrates how the actions can be extended to include the normal pull request approval process and how training and deployment workflows can be split. More enhancements will be added to this template in the future to make it more enterprise ready.
 
 ## Example workflow for registering a Machine Learning Model in Azure
 
