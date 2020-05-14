@@ -11,7 +11,7 @@ Get started today with a [free Azure account](https://azure.com/free/open-source
 
 This repository contains a GitHub Action for registering Machine Learning Models with Azure Machine Learning model registry for use in deployment and testing. This action is designed to register models that may or may not have been trained using Azure Machine Learning. If they are not trained using Azure Machine Learning, we expect the model to be present in your GitHub Repository.
 
-Additionally, this action also supports model comparison, if the model has been created by an Azure Machine Learning (pipeline) run and is not stored in your repository. This GitHub Action allows you to define metrics that will be compared with the latest model that is registered under the same name and the newly trained model will only be registered, if it performs better for all specified metrics.
+Additionally, this action also supports model comparison, if the model has been created by an Azure Machine Learning (pipeline) run and is not stored in your repository. This GitHub Action allows you to define metrics that will be compared with the latest model that is registered under the same name and the newly trained model will only be registered, if it performs better for all specified metrics. For more details look in the `parameters_file` section below.
 
 
 ## Dependencies on other GitHub Actions
