@@ -93,10 +93,19 @@ def main():
     repository_name = os.environ.get("GITHUB_REPOSITORY").split("/")[-1]
     branch_name = os.environ.get("GITHUB_REF").split("/")[-1]
     default_model_name = f"{repository_name}-{branch_name}"
+    default_tags = {}
     print(f"::debug::experiment_name: '{experiment_name}' and run_id: '{run_id}'")
     if not experiment_name or not run_id:
         # Registering model from local GitHub workspace
         print("::debug::Registering model from local GitHub workspace")
+        default_tags = {
+            "GITHUB_ACTOR": os.environ.get("GITHUB_ACTOR"),
+            "GITHUB_REPOSITORY": os.environ.get("GITHUB_REPOSITORY"),
+            "GITHUB_SHA": os.environ.get("GITHUB_SHA"),
+            "GITHUB_REF": os.environ.get("GITHUB_REF"),
+            "IS_LOCAL": True,
+        }
+
         local_model = True
 
         # Defining model path
@@ -160,6 +169,7 @@ def main():
                 metrics_min=parameters.get("metrics_min", [])
             )
 
+        default_tags = best_run.get_tags();
         # Defining model path
         print("::debug::Defining model path")
         model_file_name = parameters.get("model_file_name", "model.pkl")
@@ -167,6 +177,8 @@ def main():
             model_path = model_file_name
         else:
             model_path = [file_name for file_name in best_run.get_file_names() if model_file_name in os.path.split(file_name)[-1]][0]
+
+    
 
     # Defining model framework
     print("::debug::Defining model framework")
@@ -205,7 +217,7 @@ def main():
                 workspace=ws,
                 model_path=model_path,
                 model_name=parameters.get("model_name", default_model_name)[:32],
-                tags=parameters.get("model_tags", None),
+                tags=dict(parameters.get("model_tags", {}), **default_tags),
                 properties=parameters.get("model_properties", None),
                 description=parameters.get("model_description", None),
                 datasets=datasets,
@@ -227,7 +239,7 @@ def main():
             model = best_run.register_model(
                 model_name=parameters.get("model_name", default_model_name)[:32],
                 model_path=model_path,
-                tags=parameters.get("model_tags", None),
+                tags=dict(parameters.get("model_tags", {}), **default_tags),
                 properties=parameters.get("model_properties", None),
                 model_framework=model_framework,
                 model_framework_version=parameters.get("model_framework_version", None),
