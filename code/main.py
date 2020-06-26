@@ -61,15 +61,24 @@ def main():
         input_name="PARAMETERS_FILE"
     )
 
+    # Define target cloud
+    if azure_credentials.get("resourceManagerEndpointUrl", "").startswith("https://management.usgovcloudapi.net"):
+        cloud = "AzureUSGovernment"
+    elif azure_credentials.get("resourceManagerEndpointUrl", "").startswith("https://management.chinacloudapi.cn"):
+        cloud = "AzureChinaCloud"
+    else:
+        cloud = "AzureCloud"
+
     # Loading Workspace
     print("::debug::Loading AML Workspace")
-    config_file_path = os.environ.get("GITHUB_WORKSPACE", default=".cloud/.azure")
-    config_file_name = "aml_arm_config.json"
     sp_auth = ServicePrincipalAuthentication(
         tenant_id=azure_credentials.get("tenantId", ""),
         service_principal_id=azure_credentials.get("clientId", ""),
-        service_principal_password=azure_credentials.get("clientSecret", "")
+        service_principal_password=azure_credentials.get("clientSecret", ""),
+        cloud=cloud
     )
+    config_file_path = os.environ.get("GITHUB_WORKSPACE", default=".cloud/.azure")
+    config_file_name = "aml_arm_config.json"
     try:
         ws = Workspace.from_config(
             path=config_file_path,
