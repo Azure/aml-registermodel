@@ -256,7 +256,7 @@ def main():
 
     # Create outputs
     print("::debug::Creating outputs")
-    print(f"::set-output name=model_name::{model.name}")
+    print(f"::set-output name=model_name::{model.name.split(':')[0]}")
     print(f"::set-output name=model_version::{model.version}")
     print(f"::set-output name=model_id::{model.id}")
     print("::debug::Successfully completed Azure Machine Learning Register Model Action")
